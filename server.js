@@ -28,13 +28,19 @@ app.get('/testimonials', (req, res) => {
     res.json(db); // zanim odpowie co jest pod '/' użyje metody show 
 });
 
+app.get('/testimonials/random', (req, res) => {
+    const randomItem = db[Math.floor(Math.random() * db.length)];
+    console.log('dbLength', db.length);
+    console.log('randomItem', randomItem);
+    res.json(randomItem);
+});
+
 app.get('/testimonials/:id', (req, res) => {
     const id = parseInt(req.params.id); // Convert id to a number
     console.log('id', id);
     const result = db.find(item => item.id === id);
     res.json(result);
 });
-
 
 app.use((req, res) => {
     res.status(404).send('404 not found...'); // nie potrzeba funkcji next() kiedy adres jest niewłaściwy aplikacja nie idzie dalej
