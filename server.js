@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+const shortid = require('shortid');
 
 const db = [
     { id: 1, author: 'John Doe', text: 'This company is worth every coin!' },
@@ -41,6 +42,43 @@ app.get('/testimonials/:id', (req, res) => {
     const result = db.find(item => item.id === id);
     res.json(result);
 });
+
+app.post('/testimonials', (req, res) => {
+    const { author, text } = req.body; 
+    const newTestimonial = { id: shortid.generate(), author, text };
+    db.push(newTestimonial);
+    console.log(newTestimonial);
+    res.json(newTestimonial);
+});
+
+app.put('/testimonials/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    console.log('id', id);
+    const { author, text } = req.body; 
+
+    const testimonial = db.find(item => item.id === id);
+
+    if(testimonial) {
+        if (author) testimonial.author = author; 
+        if (text) testimonial.text = text;
+
+        res.json({ message: 'Testimonial updated', updatedTestimonial: testimonial });
+
+        console.log('db', db);
+    } else {
+        res.status(404).json({ message: 'Testimonial not found' });
+    }
+});
+
+app.delete('/testimonials/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const deletedTestimonial = db.filter(item => item.id !== id);
+
+    console.log(deletedTestimonial);
+
+    res.json({ message: 'deleted testimonial: ', deletedTestimonial });
+})
 
 app.use((req, res) => {
     res.status(404).send('404 not found...'); // nie potrzeba funkcji next() kiedy adres jest niewłaściwy aplikacja nie idzie dalej
