@@ -44,11 +44,10 @@ router.route('/seats/:id').put((req, res) => {
     const seatItem = db.seats.find(item => item.id === id);
 
     if(seatItem) {
-        if (performer) seatItem.performer = performer; 
-        if (genre) seatItem.genre = genre;
-        if (price) seatItem.price = price;
-        if (day) seatItem.day = day;
-        if (image) seatItem.image = image;
+        if (day) seatItem.day = day; 
+        if (seat) seatItem.seat = seat;
+        if (client) seatItem.client = client;
+        if (email) seatItem.email = email;
 
         res.json({ message: 'Seat updated', updatedSeat: seat });
 
