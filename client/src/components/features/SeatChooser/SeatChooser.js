@@ -4,7 +4,7 @@ import { Button, Progress, Alert } from 'reactstrap';
 import { getSeats, loadSeatsRequest, getRequests } from '../../../redux/seatsRedux';
 import './SeatChooser.scss';
 
-const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
+const SeatChooser = ({ chosenDay, chosenSeat, updateSeat, isError }) => {
   const dispatch = useDispatch();
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
@@ -17,6 +17,7 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
     return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));
   }
 
+  
   const prepareSeat = (seatId) => {
     if(seatId === chosenSeat) return <Button key={seatId} className="seats__seat" color="primary">{seatId}</Button>;
     else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
