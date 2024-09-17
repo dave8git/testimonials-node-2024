@@ -32,6 +32,7 @@ router.route('/seats').post((req, res) => {
     const { day, seat, client, email } = req.body; 
     const newSeat = { id: shortid.generate(),  day, seat, client, email };
     db.seats.push(newSeat);
+    console.log('db', db);
     console.log(newSeat);
     res.json(newSeat);
 });

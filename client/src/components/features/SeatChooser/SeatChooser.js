@@ -14,7 +14,8 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat, isError }) => {
 
     const intervalId = setInterval(() => {
       dispatch(loadSeatsRequest());
-    }, 20000); // 20000ms = 20 seconds
+    }, 20000);
+
     return () => clearInterval(intervalId);
   }, [dispatch])
 
