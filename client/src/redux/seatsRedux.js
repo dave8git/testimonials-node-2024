@@ -45,6 +45,14 @@ export const loadSeatsRequest = () => {
   };
 };
 
+export const loadLocalSeats = () => {
+  console.log('loadlocalseats');
+  return async dispatch => {
+    let res = await axios.get(`${API_URL}/seats`);
+    dispatch(loadSeats(res.data));
+  }
+}
+
 export const addSeatRequest = (seat) => {
   return async dispatch => {
 

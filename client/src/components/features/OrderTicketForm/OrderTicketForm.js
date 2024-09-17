@@ -1,7 +1,7 @@
 import { Button, Form, FormGroup, Label, Input, Row, Col, Alert, Progress } from 'reactstrap';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSeatRequest, getRequests, loadSeatsRequest, startRequest } from '../../../redux/seatsRedux';
+import { addSeatRequest, getRequests, loadLocalSeats, loadSeatsRequest, startRequest } from '../../../redux/seatsRedux';
 
 import './OrderTicketForm.scss';
 import SeatChooser from './../SeatChooser/SeatChooser';
@@ -36,17 +36,19 @@ const OrderTicketForm = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
+    console.log('form submitted');
 
     if(order.client && order.email && order.day && order.seat) {
-      dispatch(addSeatRequest(order));
+     
       setOrder({
         client: '',
         email: '',
         day: 1,
         seat: '',
       });
+      dispatch(addSeatRequest(order));
+      dispatch(loadLocalSeats());
       setIsError(false);
-      dispatch(loadSeatsRequest());
     } else {
       setIsError(true);
     }
