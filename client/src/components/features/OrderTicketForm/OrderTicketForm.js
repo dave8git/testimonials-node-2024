@@ -47,7 +47,8 @@ const OrderTicketForm = () => {
         seat: '',
       });
       dispatch(addSeatRequest(order));
-      dispatch(loadLocalSeats());
+      // dispatch(loadSeatsRequest());
+      // dispatch(loadLocalSeats());
       setIsError(false);
     } else {
       setIsError(true);

@@ -59,11 +59,11 @@ export const addSeatRequest = (seat) => {
     dispatch(startRequest({ name: 'ADD_SEAT' }));
     try {
 
-      let res = await axios.post(`${API_URL}/seats`, seat);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      let res = await axios.post(`${API_URL}/seats`, seat);  // await mówi zaczekaj aż wykonasz i zwróci dane
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // tutaj await to specjalne spowolnienie (o 1 sec. czyli 100 mlsec)
       dispatch(addSeat(res));
       dispatch(endRequest({ name: 'ADD_SEAT' }));
-
+      dispatch(loadSeatsRequest()); // load seats request dodany tutaj wykona siena pewno jak zakończy się await z linijki - 3 linijki wyżej
     } catch(e) {
       dispatch(errorRequest({ name: 'ADD_SEAT', error: e.message }));
     }
