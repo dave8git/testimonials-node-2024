@@ -64,8 +64,10 @@ export const addSeatRequest = (seat) => {
       dispatch(addSeat(res));
       dispatch(endRequest({ name: 'ADD_SEAT' }));
       dispatch(loadSeatsRequest()); // load seats request dodany tutaj wykona siena pewno jak zakończy się await z linijki - 3 linijki wyżej
-    } catch(e) {
-      dispatch(errorRequest({ name: 'ADD_SEAT', error: e.message }));
+      //console.log('e.message', error.message);
+    } catch(error) {
+      console.log('error', error);
+      dispatch(errorRequest({ name: 'ADD_SEAT', error: error.response?.data?.message || 'An error occured' }));
     }
 
   };

@@ -30,7 +30,19 @@ router.route('/seats/:id').get((req, res) => {
 
 router.route('/seats').post((req, res) => {
     const { day, seat, client, email } = req.body; 
-    const newSeat = { id: shortid.generate(),  day, seat, client, email };
+
+    const parsedDay = parseInt(day, 10);
+    const parsedSeat = parseInt(day, 10);
+
+    const isSeatTaken = db.seats.some(existingSeat => existingSeat.day === parsedDay && existingSeat.seat === parsedSeat);
+
+    console.log('isSeatTaken', isSeatTaken);
+
+    if(isSeatTaken) {
+        return res.status(400).json({ message: 'The seat is already taken.' });
+    }
+
+    const newSeat = { id: shortid.generate(),  day: parsedDay, seat: parsedSeat, client, email };
     db.seats.push(newSeat);
     console.log('db', db);
     console.log(newSeat);
