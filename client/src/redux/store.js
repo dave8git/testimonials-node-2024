@@ -11,11 +11,12 @@ const rootReducer = combineReducers({
   seats,
 });
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;  // każda z tych funkcji może dodać middleare czyli można zrobić composeEnhancers() <-- patrz poniżej
+
 const store = createStore(
   rootReducer,
-  compose(
+  composeEnhancers(
 		applyMiddleware(thunk),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 	)
 );
 

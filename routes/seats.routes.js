@@ -32,7 +32,7 @@ router.route('/seats').post((req, res) => {
     const { day, seat, client, email } = req.body; 
 
     const parsedDay = parseInt(day, 10);
-    const parsedSeat = parseInt(day, 10);
+    const parsedSeat = parseInt(seat, 10);
 
     const isSeatTaken = db.seats.some(existingSeat => existingSeat.day === parsedDay && existingSeat.seat === parsedSeat);
 
@@ -44,6 +44,7 @@ router.route('/seats').post((req, res) => {
 
     const newSeat = { id: shortid.generate(),  day: parsedDay, seat: parsedSeat, client, email };
     db.seats.push(newSeat);
+    req.io.emit('seatsUpdated', db.seats);
     console.log('db', db);
     console.log(newSeat);
     res.json(newSeat);
