@@ -2,12 +2,13 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const app = express();
-const db = require('./db/db');
+//const db = require('./db/db');
 const socket = require('socket.io');
+const mongoose = require('mongoose');
 
-const testimonials = db.testimonials;
-const concerts = db.concerts;
-const seats = db.seats; 
+// const testimonials = db.testimonials;
+// const concerts = db.concerts;
+// const seats = db.seats; 
 
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
@@ -41,3 +42,13 @@ app.use('/api', seatsRoutes);
 app.use((req, res) => {
     res.status(404).send('404 not found...'); // nie potrzeba funkcji next() kiedy adres jest niewłaściwy aplikacja nie idzie dalej
 });
+
+mongoose.connect('mongodb://0.0.0.0:27017/NewWaveDB', { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+
+db.once('open', () => {
+    console.log('Connect to the database');
+});
+
+db.on('error', err => console.log('Error ' + err));
+console.log('Successfully connected to the database');
