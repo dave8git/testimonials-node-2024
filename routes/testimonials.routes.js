@@ -10,10 +10,10 @@ router.get('/testimonials', async (req, res) => {
     //res.json(db.testimonials);
     try {
         res.json(await Testimonial.find());
-      }
-     catch(err) {
-       res.status(500).json({ message: err });
-     };
+    }
+    catch (err) {
+        res.status(500).json({ message: err });
+    };
 });
 
 // app.get('/testimonials', (req, res) => {
@@ -29,7 +29,7 @@ router.get('/testimonials/random', async (req, res) => {
         if (!tes) res.status(404).json({ message: 'Not found', rand: rand, count })
         else res.json(tes);
     }
-    catch(err) {
+    catch (err) {
         res.status(500).json({ message: err });
     }
 });
@@ -44,12 +44,12 @@ router.get('/testimonials/:id', async (req, res) => {
 
     try {
         const tes = await Testimonial.findById(req.params.id);
-        if(!tes) res.status(404).json({ message: 'Not found' });
+        if (!tes) res.status(404).json({ message: 'Not found' });
         else res.json(tes);
-      } 
-      catch(err) {
+    }
+    catch (err) {
         res.status(500).json({ message: err });
-      }
+    }
 });
 
 router.post('/testimonials', async (req, res) => {
@@ -59,14 +59,14 @@ router.post('/testimonials', async (req, res) => {
     // console.log(newTestimonial);
     // res.json(newTestimonial);
     try {
-        const { author, text } = req.body; 
+        const { author, text } = req.body;
         const newTestimonial = new Testimonial({ author, text });
         await newTestimonial.save();
         res.json({ message: 'OK' });
-      } 
-        catch(err) {
-          res.status(500).json({ message: err });
-        }
+    }
+    catch (err) {
+        res.status(500).json({ message: err });
+    }
 });
 
 router.put('/testimonials/:id', async (req, res) => {
@@ -88,12 +88,12 @@ router.put('/testimonials/:id', async (req, res) => {
     // }
     //const { author, text } = req.body;
     try {
-     await Testimonial.updateOne({ _id: req.params.id }, { $set: { ...req.body }});
-     res.json({ message: 'OK' });
+        await Testimonial.updateOne({ _id: req.params.id }, { $set: { ...req.body } });
+        res.json({ message: 'OK' });
     }
-      catch(err) {
+    catch (err) {
         res.status(500).json({ message: err });
-      }
+    }
 });
 
 router.delete('/testimonials/:id', async (req, res) => {
@@ -106,15 +106,15 @@ router.delete('/testimonials/:id', async (req, res) => {
     // res.json({ message: 'deleted testimonial: ', deletedTestimonial });
     try {
         const tes = await Testimonial.findById(req.params.id);
-        if(tes) {
-          await Testimonial.deleteOne({ _id: req.params.id });
-          res.json({ message: 'OK' });
+        if (tes) {
+            await Testimonial.deleteOne({ _id: req.params.id });
+            res.json({ message: 'OK' });
         }
-        else res.status(404).json({ message: 'Not found...'});
-      }
-      catch(err) {
+        else res.status(404).json({ message: 'Not found...' });
+    }
+    catch (err) {
         res.status(500).json({ message: err });
-      }
+    }
 });
 
 module.exports = router; 

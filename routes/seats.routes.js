@@ -5,7 +5,7 @@ const router = express.Router();
 const db = require('./../db/db');
 const shortid = require('shortid');
 
-router.route('/seats').get((req, res) => {
+router.get('/seats', async (req, res) => {
     res.json(db.seats);
 });
 
