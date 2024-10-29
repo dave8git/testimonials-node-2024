@@ -1,10 +1,29 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 
+function getDayName(numDay) {
+  const dayName = '';
+  if(numDay === 1) {
+    return 'One';
+  } else if (numDay === 2) {
+    return 'Two';
+  } else if (numDay === 3) {
+    return 'Three';
+  }
+}
 /* SELECTORS */
 export const getConcerts = ({ concerts }) => concerts.data;
 export const getRequest = ({ concerts }) => concerts.request;
-
+export const getConcertsData = ({ concerts }) => {
+  return concerts.data.map(concert => {
+    const day = getDayName(concert.day);
+    return {
+      "day": day,
+      "price": concert.price,
+      "workshops": concert.workshops
+    }
+  })
+}
 /* ACTIONS */
 
 // action name creator
@@ -26,20 +45,22 @@ export const loadConcerts = payload => ({ payload, type: LOAD_CONCERTS });
 /* THUNKS */
 
 export const loadConcertsRequest = () => {
-  return async dispatch => {
-
-    dispatch(startRequest());
-    try {
-
-      let res = await axios.get(`${API_URL}/concerts`);
-      await new Promise((resolve, reject) => setTimeout(resolve, 2000));
-      dispatch(loadConcerts(res.data));
-      dispatch(endRequest());
-
-    } catch(e) {
-      dispatch(errorRequest(e.message));
+  return async (dispatch, getState) => {
+    const state = getState(); 
+    //console.log('cokolwiek', state);
+    if(!state.concerts.data.length) {
+          console.log('loadConcertRequest', state);
+      dispatch(startRequest());
+      try {
+        let res = await axios.get(`${API_URL}/concerts`);
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+        dispatch(loadConcerts(res.data));
+        dispatch(endRequest());
+  
+      } catch(e) {
+        dispatch(errorRequest(e.message));
+      }
     }
-
   };
 };
 
