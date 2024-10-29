@@ -2,6 +2,7 @@ import { Alert, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { getConcertsData, loadConcertsRequest } from '../../../redux/concertsRedux';
 import { useEffect } from 'react';
+import { Progress } from 'reactstrap';
 
 const Prices = () => {
   const dayData = useSelector(getConcertsData);
@@ -22,13 +23,14 @@ const Prices = () => {
       <Alert color="info">
         Attention! <strong>Children under 4 can go freely with you without any other fee!</strong>
       </Alert>
-      {dayData.map(concert => (
+      {dayData.length === 0 ? <Progress animated color="primary" value={50} /> : dayData.map(concert => (
         <>
           <h2>Day {concert.day}</h2>
           <p>Price: {concert.price}$</p>
           <p>Workshops: {concert.workshops.join(', ')}</p>
         </>
       ))}
+    
 
       {/* <h2>Day one</h2>
       <p>Price: 25$</p>
