@@ -23,15 +23,17 @@ const Prices = () => {
       <Alert color="info">
         Attention! <strong>Children under 4 can go freely with you without any other fee!</strong>
       </Alert>
-      {dayData.length === 0 ? <Progress animated color="primary" value={50} /> : dayData.map(concert => (
-        <>
-          <h2>Day {concert.day}</h2>
-          <p>Price: {concert.price}$</p>
-          <p>Workshops: {concert.workshops.join(', ')}</p>
-        </>
-      ))}
-    
-
+      {
+        dayData.length === 0 ?
+          <Progress animated color="primary" value={50} />
+          :
+          dayData.map(concert => (
+            <>
+              <h2>Day {concert.day}</h2>
+              <p>Price: {concert.price}$</p>
+              <p>Workshops: {concert.workshops.join(', ')}</p>
+            </>
+          ))}
       {/* <h2>Day one</h2>
       <p>Price: 25$</p>
       <p>Workshops: "Rock Music Style", "How to make you voice grooowl", "Make your voice stronger", "History of Rock"</p>
