@@ -4,6 +4,7 @@
 // const router = express.Router();
 //const db = require('./../db/db');
 //const shortid = require('shortid');
+const mongoSanitize = require('mongo-sanitize');
 const Concert = require('../models/concert.model');
 exports.getAll = async (req, res) => {
     try {
@@ -51,8 +52,15 @@ exports.getById = async (req, res) => {
 };
 
 exports.post = async (req, res) => {
-    const { performer, genre, price, day, image } = req.body;
-    const newConcert = new Concert({ performer, genre, price, day, image });
+    // const { performer, genre, price, day, image } = req.body;
+    const sanitizedBody = {
+        performer: mongoSanitize(req.body.performer),
+        genre: mongoSanitize(req.body.genre),
+        price: mongoSanitize(req.body.price),
+        day: mongoSanitize(req.body.day),
+        image: mongoSanitize(req.body.image),
+    };
+    const newConcert = new Concert(sanitizedBody);
     await newConcert.save();
     console.log(newConcert);
     res.json({ message: 'OK' });

@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 // const testimonials = db.testimonials;
 // const concerts = db.concerts;
 // const seats = db.seats; 
-
+const sanitize = require('mongo-sanitize');
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 app.use(cors());
 app.use('/api', testimonialsRoutes);
 app.use('/api/', concertsRoutes);
