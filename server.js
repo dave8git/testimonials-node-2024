@@ -5,6 +5,7 @@ const app = express();
 //const db = require('./db/db');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 // const testimonials = db.testimonials;
 // const concerts = db.concerts;
@@ -36,6 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(cors());
+app.use(helmet());
 app.use('/api', testimonialsRoutes);
 app.use('/api/', concertsRoutes);
 app.use('/api', seatsRoutes);
